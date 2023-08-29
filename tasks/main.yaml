@@ -30,6 +30,24 @@
   notify: "Restart sshd"
   become: true
 
+- name: "Configure ssh to disconnect unresponsive ssh client after 10 minutes"
+  block:
+    - name: "Set ClientAliveInterval"
+      ansible.builtin.lineinfile:
+        path: "/etc/ssh/sshd_config"
+        regexp: "^#?ClientAliveInterval"
+        line: "ClientAliveInterval 600"
+      notify: "Restart sshd"
+      become: true
+
+    - name: "Set ClientAliveCountMax"
+      ansible.builtin.lineinfile:
+        path: "/etc/ssh/sshd_config"
+        regexp: "^#?ClientAliveCountMax"
+        line: "ClientAliveCountMax 0"
+      notify: "Restart sshd"
+      become: true
+
 - name: "Disable ssh tcp forwarding"
   ansible.builtin.lineinfile:
     path: "/etc/ssh/sshd_config"
