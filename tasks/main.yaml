@@ -36,7 +36,7 @@
       ansible.builtin.lineinfile:
         path: "/etc/ssh/sshd_config"
         regexp: "^#?ClientAliveInterval"
-        line: "ClientAliveInterval 600"
+        line: "ClientAliveInterval 300"  # 5 min
       notify: "Restart sshd"
       become: true
 
